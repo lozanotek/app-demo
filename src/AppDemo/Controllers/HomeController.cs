@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AppDemo.Models;
 
 namespace AppDemo.Controllers
 {
@@ -10,9 +11,14 @@ namespace AppDemo.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "Home Page";
+            var assemblyName = GetType().Assembly.GetName();
+            var viewModel = new HomeViewModel
+            {
+                Version = assemblyName.Version.ToString(),
+                Name = assemblyName.FullName
+            };
 
-            return View();
+            return View(viewModel);
         }
     }
 }
