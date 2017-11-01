@@ -13,7 +13,18 @@ namespace AppDemo.Controllers
         {
             return GetValues();
         }
-        
+
+        public string Get(int id)
+        {
+            var values = GetValues();
+            if (values == null)
+            {
+                return null;
+            }
+
+            return id > values.Count ? "out-of-range" : values[id];
+        }
+
         private static IList<string> GetValues()
         {
             var context = HttpContext.Current;
