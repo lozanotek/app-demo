@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+
+using System.Linq;
 using System.Web;
 using System.Web.Caching;
 using System.Web.Http;
@@ -40,7 +42,11 @@ namespace AppDemo.Controllers
             }
 
             var temp = ConfigurationManager.AppSettings["Values"];
-            var tempArray = temp.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
+            var tempArray = temp
+                .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(s => s.Trim())
+                .ToArray();
+
             context.Cache.Insert("__values__", tempArray, null,
                 DateTime.Now.AddDays(12),
                 Cache.NoSlidingExpiration);
