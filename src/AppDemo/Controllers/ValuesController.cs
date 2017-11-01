@@ -13,18 +13,7 @@ namespace AppDemo.Controllers
         {
             return GetValues();
         }
-
-        public string Get(int id)
-        {
-            var values = GetValues();
-            if (values == null)
-            {
-                return null;
-            }
-
-            return id > values.Count ? "out-of-range" : values[id];
-        }
-
+        
         private static IList<string> GetValues()
         {
             var context = HttpContext.Current;
@@ -41,12 +30,11 @@ namespace AppDemo.Controllers
 
             var temp = ConfigurationManager.AppSettings["Values"];
             var tempArray = temp.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
-            list = new List<string>(tempArray);
-            context.Cache.Insert("__values__", tempArray, null, 
-                DateTime.Now.AddDays(12), 
+            context.Cache.Insert("__values__", tempArray, null,
+                DateTime.Now.AddDays(12),
                 Cache.NoSlidingExpiration);
 
-            return list;
+            return new List<string>(tempArray);            
         } 
     }
 }
